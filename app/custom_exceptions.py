@@ -29,7 +29,7 @@ class UserNotFound(BaseError):
     pass
 
 
-class VehicleNotFound(BaseError):
+class TaskNotFound(BaseError):
     """
     Error raised when vehicle is not found
     """
@@ -40,6 +40,10 @@ class UserAlreadyExists(BaseError):
     """
     Error raised when user already exists
     """
+    pass
+
+
+class TaskAlreadyExists(BaseError):
     pass
 
 
@@ -191,6 +195,14 @@ def register_all_errors(app: FastAPI):
         }
     ))
 
+    app.add_exception_handler(TaskAlreadyExists, create_exception_handler(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        message={
+            "message": "Task with this title already exists...⛔👿",
+            "error-code": "task-already-exists",
+        }
+    ))
+
     app.add_exception_handler(UserNotFound, create_exception_handler(
         status_code=status.HTTP_404_NOT_FOUND,
         message={
@@ -199,11 +211,11 @@ def register_all_errors(app: FastAPI):
         }
     ))
 
-    app.add_exception_handler(VehicleNotFound, create_exception_handler(
+    app.add_exception_handler(TaskNotFound, create_exception_handler(
         status_code=status.HTTP_404_NOT_FOUND,
         message={
-            "message": "Vehicle not found...⛔👿",
-            "error-code": "vehicle-not-found",
+            "message": "Task not found...⛔👿",
+            "error-code": "task-not-found",
         }
     ))
 

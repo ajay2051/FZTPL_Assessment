@@ -8,6 +8,7 @@ from starlette.middleware.cors import CORSMiddleware
 from app.auth.routers import auth_router
 from app.custom_exceptions import register_all_errors
 from app.db_connection import startup, shutdown
+from app.task.routers import task_router
 from config import MODE
 
 version = "v1"
@@ -57,6 +58,7 @@ def welcome_to_task_management():
 register_all_errors(app)
 
 app.include_router(auth_router, prefix=f"/api/{version}/auth")
+app.include_router(task_router, prefix=f"/api/{version}/task")
 
 
 
